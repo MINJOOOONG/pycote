@@ -1,12 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Concept } from '../types/concept';
-import { Card } from './Card';
-import { Pill } from './Pill';
 import { Colors } from '../constants/colors';
 import { FontSize, FontWeight } from '../constants/typography';
-import { Spacing } from '../constants/layout';
+import { Spacing, BorderRadius } from '../constants/layout';
 
 interface ConceptCardProps {
   concept: Concept;
@@ -15,13 +12,14 @@ interface ConceptCardProps {
 
 export function ConceptCard({ concept, onPress }: ConceptCardProps) {
   return (
-    <Card onPress={onPress} style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
       <View style={styles.topRow}>
-        <Pill label={concept.category} color={Colors.primary} backgroundColor={Colors.primaryDim} />
-        <View style={styles.exampleMeta}>
-          <Feather name="code" size={13} color={Colors.textQuaternary} />
-          <Text style={styles.exampleCount}>예시 {concept.codeExamples.length}</Text>
+        <View style={styles.categoryBadge}>
+          <Text style={styles.categoryText}>{concept.category}</Text>
         </View>
+        <Text style={styles.exampleCount}>
+          예시 {concept.codeExamples.length}개
+        </Text>
       </View>
 
       <Text style={styles.title}>{concept.title}</Text>
@@ -33,21 +31,30 @@ export function ConceptCard({ concept, onPress }: ConceptCardProps) {
       {concept.patterns.length > 0 && (
         <View style={styles.patternsRow}>
           {concept.patterns.slice(0, 3).map((p, i) => (
-            <Pill key={i} label={p} color={Colors.textTertiary} backgroundColor={Colors.surfaceElevated} style={styles.patternTag} />
+            <View key={i} style={styles.patternTag}>
+              <Text style={styles.patternText} numberOfLines={1}>
+                {p}
+              </Text>
+            </View>
           ))}
           {concept.patterns.length > 3 && (
             <Text style={styles.moreText}>+{concept.patterns.length - 3}</Text>
           )}
         </View>
       )}
-    </Card>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: Spacing.xl,
-    marginVertical: Spacing.sm,
+    backgroundColor: Colors.surface,
+    marginHorizontal: Spacing.lg,
+    marginVertical: Spacing.xs,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.lg,
+    borderWidth: 1,
+    borderColor: Colors.border,
     gap: Spacing.sm,
   },
   topRow: {
@@ -55,21 +62,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  exampleMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
+  categoryBadge: {
+    backgroundColor: Colors.primaryDim,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 3,
+    borderRadius: BorderRadius.sm,
+  },
+  categoryText: {
+    fontSize: FontSize.xs,
+    color: Colors.primaryLight,
+    fontWeight: FontWeight.semibold,
   },
   exampleCount: {
     fontSize: FontSize.xs,
-    color: Colors.textQuaternary,
-    fontWeight: FontWeight.medium,
+    color: Colors.textTertiary,
   },
   title: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
-    letterSpacing: -0.2,
   },
   summary: {
     fontSize: FontSize.sm,
@@ -79,16 +90,23 @@ const styles = StyleSheet.create({
   patternsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
     gap: Spacing.xs,
-    marginTop: 2,
+    marginTop: Spacing.xs,
   },
   patternTag: {
-    maxWidth: 150,
+    backgroundColor: Colors.surfaceElevated,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.full,
+    maxWidth: 140,
+  },
+  patternText: {
+    fontSize: FontSize.xs,
+    color: Colors.textTertiary,
   },
   moreText: {
     fontSize: FontSize.xs,
-    color: Colors.textQuaternary,
+    color: Colors.textTertiary,
     paddingVertical: 2,
   },
 });

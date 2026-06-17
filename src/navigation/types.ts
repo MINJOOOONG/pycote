@@ -7,14 +7,8 @@ export type RootStackParamList = {
 };
 
 export type TabParamList = {
-  HomeTab: undefined;
   ProblemsTab: undefined;
   ConceptsTab: undefined;
-};
-
-export type HomeStackParamList = {
-  Home: undefined;
-  ProblemDetail: { problemId: string };
 };
 
 export type ProblemsStackParamList = {
@@ -27,13 +21,6 @@ export type ConceptsStackParamList = {
   ConceptDetail: { conceptId: string };
 };
 
-// Home
-export type HomeNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<HomeStackParamList, 'Home'>,
-  BottomTabNavigationProp<TabParamList>
->;
-
-// Problems
 export type ProblemListNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<ProblemsStackParamList, 'ProblemList'>,
   BottomTabNavigationProp<TabParamList>
@@ -49,7 +36,6 @@ export type ProblemDetailRouteProp = RouteProp<
   'ProblemDetail'
 >;
 
-// Concepts
 export type ConceptListNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<ConceptsStackParamList, 'ConceptList'>,
   BottomTabNavigationProp<TabParamList>

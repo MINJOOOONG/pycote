@@ -50,7 +50,5 @@ export interface Problem {
   tags: string[];
   acceptRate?: number;
   solveCount?: number;
-  /** Estimated solving time in minutes (shown on problem cards). */
-  estimatedMinutes: number;
   createdAt: string;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import { Colors } from '../constants/colors';
-import { FontSize, FontWeight, MonoFont } from '../constants/typography';
+import { FontSize } from '../constants/typography';
 import { Spacing, BorderRadius } from '../constants/layout';
 
 interface CodeBlockProps {
@@ -10,34 +10,23 @@ interface CodeBlockProps {
   showLineNumbers?: boolean;
 }
 
-/**
- * Minimal light code surface (GitHub-light inspired).
- * `input` / `output` languages render a compact, header-less variant.
- */
 export function CodeBlock({ code, language, showLineNumbers = true }: CodeBlockProps) {
   const lines = code.split('\n');
-  const isIO = language === 'input' || language === 'output';
-  const useLineNumbers = showLineNumbers && lines.length > 1 && !isIO;
 
   return (
     <View style={styles.wrapper}>
-      {language && !isIO && (
+      {language && language !== 'input' && language !== 'output' && (
         <View style={styles.header}>
-          <View style={styles.dots}>
-            <View style={[styles.dot, { backgroundColor: '#FF5F56' }]} />
-            <View style={[styles.dot, { backgroundColor: '#FFBD2E' }]} />
-            <View style={[styles.dot, { backgroundColor: '#27C93F' }]} />
-          </View>
           <Text style={styles.language}>{language}</Text>
         </View>
       )}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-        <View style={[styles.codeContainer, isIO && styles.codeContainerIO]}>
-          {useLineNumbers ? (
+        <View style={styles.codeContainer}>
+          {showLineNumbers && lines.length > 1 ? (
             lines.map((line, i) => (
               <View key={i} style={styles.lineRow}>
                 <Text style={styles.lineNumber}>{i + 1}</Text>
-                <Text style={styles.codeLine}>{line || ' '}</Text>
+                <Text style={styles.codeLine}>{line}</Text>
               </View>
             ))
           ) : (
@@ -54,67 +43,50 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: Colors.codeBorder,
-    backgroundColor: Colors.codeBackground,
+    borderColor: Colors.border,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.md,
-    backgroundColor: Colors.surfaceElevated,
+    backgroundColor: Colors.surfaceHighlight,
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+    paddingVertical: Spacing.xs,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.codeBorder,
-  },
-  dots: {
-    flexDirection: 'row',
-    gap: 5,
-  },
-  dot: {
-    width: 9,
-    height: 9,
-    borderRadius: 5,
+    borderBottomColor: Colors.border,
   },
   language: {
     fontSize: FontSize.xs,
     color: Colors.textTertiary,
-    fontFamily: MonoFont,
-    fontWeight: FontWeight.medium,
+    fontFamily: 'monospace' as any,
   },
   scrollView: {
-    backgroundColor: Colors.codeBackground,
+    backgroundColor: '#0D1117',
   },
   codeContainer: {
     padding: Spacing.md,
-  },
-  codeContainerIO: {
-    paddingVertical: Spacing.sm + 2,
   },
   lineRow: {
     flexDirection: 'row',
     marginBottom: 1,
   },
   lineNumber: {
-    width: 26,
+    width: 28,
     fontSize: FontSize.sm,
-    color: Colors.codeMuted,
-    fontFamily: MonoFont,
+    color: Colors.textTertiary,
+    fontFamily: 'monospace' as any,
     textAlign: 'right',
     marginRight: Spacing.md,
-    lineHeight: 21,
+    lineHeight: 20,
     userSelect: 'none' as any,
   },
   codeLine: {
     fontSize: FontSize.sm,
-    color: Colors.codeText,
-    fontFamily: MonoFont,
-    lineHeight: 21,
+    color: '#E6EDF3',
+    fontFamily: 'monospace' as any,
+    lineHeight: 20,
   },
   codePlain: {
     fontSize: FontSize.sm,
-    color: Colors.codeText,
-    fontFamily: MonoFont,
-    lineHeight: 21,
+    color: '#E6EDF3',
+    fontFamily: 'monospace' as any,
+    lineHeight: 20,
   },
 });

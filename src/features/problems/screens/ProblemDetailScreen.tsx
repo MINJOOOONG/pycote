@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
 import { useProblemDetail } from '../hooks/useProblemDetail';
 import { useBookmarkStore } from '../../../store/bookmarkStore';
 import { useProgressStore } from '../../../store/progressStore';
@@ -114,7 +113,7 @@ export function ProblemDetailScreen() {
   }, [problem, currentCode, isSubmitting, markAttempted, markSolved]);
 
   if (isLoading) return <LoadingScreen />;
-  if (!problem) return <EmptyState icon="frown" title="문제를 찾을 수 없습니다" />;
+  if (!problem) return <EmptyState icon="😅" title="문제를 찾을 수 없습니다" />;
 
   const isSolved = progress?.status === 'solved';
 
@@ -126,8 +125,7 @@ export function ProblemDetailScreen() {
           <LevelBadge level={problem.level} showDescription />
           {isSolved && (
             <View style={styles.solvedBadge}>
-              <Feather name="check" size={11} color={Colors.success} />
-              <Text style={styles.solvedBadgeText}>해결</Text>
+              <Text style={styles.solvedBadgeText}>✓ 해결</Text>
             </View>
           )}
           <TouchableOpacity
@@ -135,11 +133,9 @@ export function ProblemDetailScreen() {
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             style={styles.bookmarkBtn}
           >
-            <Feather
-              name="bookmark"
-              size={20}
-              color={bookmarked ? Colors.primary : Colors.textTertiary}
-            />
+            <Text style={[styles.bookmarkIcon, bookmarked && styles.bookmarkedIcon]}>
+              {bookmarked ? '★' : '☆'}
+            </Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>{problem.title}</Text>
@@ -235,7 +231,7 @@ export function ProblemDetailScreen() {
                 onPress={() => setShowHints((v) => !v)}
               >
                 <Text style={styles.sectionTitle}>힌트 ({problem.hints.length})</Text>
-                <Feather name={showHints ? 'chevron-up' : 'chevron-down'} size={16} color={Colors.textTertiary} />
+                <Text style={styles.chevron}>{showHints ? '▲' : '▼'}</Text>
               </TouchableOpacity>
               {showHints && (
                 <View style={styles.section}>
@@ -257,7 +253,7 @@ export function ProblemDetailScreen() {
             onPress={() => setShowSolution((v) => !v)}
           >
             <Text style={styles.sectionTitle}>풀이 보기</Text>
-            <Feather name={showSolution ? 'chevron-up' : 'chevron-down'} size={16} color={Colors.textTertiary} />
+            <Text style={styles.chevron}>{showSolution ? '▲' : '▼'}</Text>
           </TouchableOpacity>
           {showSolution && (
             <View style={styles.section}>
@@ -285,10 +281,8 @@ export function ProblemDetailScreen() {
           <TouchableOpacity
             style={styles.goCodeBtn}
             onPress={() => setActiveTab('code')}
-            activeOpacity={0.85}
           >
-            <Feather name="code" size={15} color="#FFFFFF" />
-            <Text style={styles.goCodeBtnText}>코드 작성하기</Text>
+            <Text style={styles.goCodeBtnText}>✏️  코드 작성하기</Text>
           </TouchableOpacity>
         </ScrollView>
       )}
@@ -349,19 +343,15 @@ export function ProblemDetailScreen() {
               style={[styles.runBtn, (isRunning || isSubmitting) && styles.btnDisabled]}
               onPress={handleRun}
               disabled={isRunning || isSubmitting}
-              activeOpacity={0.8}
             >
-              <Feather name="play" size={14} color={Colors.textPrimary} />
-              <Text style={styles.runBtnText}>실행</Text>
+              <Text style={styles.runBtnText}>▶  실행</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.submitBtn, (isRunning || isSubmitting) && styles.btnDisabled]}
               onPress={handleSubmit}
               disabled={isRunning || isSubmitting}
-              activeOpacity={0.85}
             >
-              <Feather name="zap" size={14} color="#FFFFFF" />
-              <Text style={styles.submitBtnText}>제출</Text>
+              <Text style={styles.submitBtnText}>⚡  제출</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -391,15 +381,12 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   solvedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    backgroundColor: Colors.successDim,
+    backgroundColor: 'rgba(0,196,113,0.15)',
     borderRadius: BorderRadius.full,
     paddingHorizontal: Spacing.sm,
     paddingVertical: 2,
     borderWidth: 1,
-    borderColor: Colors.successBorder,
+    borderColor: 'rgba(0,196,113,0.3)',
   },
   solvedBadgeText: {
     fontSize: FontSize.xs,
@@ -408,6 +395,13 @@ const styles = StyleSheet.create({
   },
   bookmarkBtn: {
     marginLeft: 'auto',
+  },
+  bookmarkIcon: {
+    fontSize: 22,
+    color: Colors.textTertiary,
+  },
+  bookmarkedIcon: {
+    color: '#FFD700',
   },
   title: {
     fontSize: FontSize.lg,
@@ -526,6 +520,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.lg,
   },
+  chevron: {
+    fontSize: FontSize.xs,
+    color: Colors.textTertiary,
+  },
   hintCard: {
     backgroundColor: Colors.surfaceElevated,
     borderRadius: BorderRadius.md,
@@ -580,9 +578,6 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     paddingVertical: Spacing.md,
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: Spacing.sm,
   },
   goCodeBtnText: {
     fontSize: FontSize.md,
@@ -636,9 +631,6 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 6,
     backgroundColor: Colors.surfaceElevated,
     borderWidth: 1,
     borderColor: Colors.border,
@@ -653,9 +645,6 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.md,
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 6,
     backgroundColor: Colors.primary,
   },
   submitBtnText: {

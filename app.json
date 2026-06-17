@@ -4,7 +4,7 @@
     "slug": "pycote",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "assetBundlePatterns": ["**/*"],
     "ios": {

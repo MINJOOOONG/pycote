@@ -165,12 +165,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   bannerSuccess: {
-    backgroundColor: Colors.successDim,
-    borderColor: Colors.successBorder,
+    backgroundColor: 'rgba(0,196,113,0.08)',
+    borderColor: 'rgba(0,196,113,0.25)',
   },
   bannerError: {
-    backgroundColor: Colors.errorDim,
-    borderColor: Colors.errorBorder,
+    backgroundColor: 'rgba(255,68,68,0.08)',
+    borderColor: 'rgba(255,68,68,0.25)',
   },
   bannerTitle: {
     fontSize: FontSize.md,
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   casePass: {
-    backgroundColor: Colors.successDim,
-    borderColor: Colors.successBorder,
+    backgroundColor: 'rgba(0,196,113,0.05)',
+    borderColor: 'rgba(0,196,113,0.2)',
   },
   caseFail: {
-    backgroundColor: Colors.errorDim,
-    borderColor: Colors.errorBorder,
+    backgroundColor: 'rgba(255,68,68,0.05)',
+    borderColor: 'rgba(255,68,68,0.2)',
   },
   icon: {
     fontSize: 14,

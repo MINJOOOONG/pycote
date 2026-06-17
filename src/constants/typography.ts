@@ -1,20 +1,14 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Colors } from './colors';
 
-/**
- * Pycote Design System — Typography
- *
- * One restrained scale. Apple-style: bold display titles, regular body.
- * System font stack keeps it native on iOS and clean on web.
- */
 export const FontSize = {
-  xs: 12,
+  xs: 11,
   sm: 13,
   md: 15,
   lg: 17,
   xl: 20,
-  xxl: 26,
-  display: 32,
+  xxl: 24,
+  xxxl: 28,
 } as const;
 
 export const FontWeight = {
@@ -24,72 +18,51 @@ export const FontWeight = {
   bold: '700' as const,
 };
 
-export const LineHeight = {
-  tight: 1.2,
-  normal: 1.45,
-  relaxed: 1.6,
-} as const;
-
-/** Monospace stack for code surfaces. */
-export const MonoFont = Platform.select({
-  ios: 'Menlo',
-  android: 'monospace',
-  default: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-}) as string;
-
 export const Typography = StyleSheet.create({
-  display: {
-    fontSize: FontSize.display,
+  h1: {
+    fontSize: FontSize.xxxl,
     fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
-    letterSpacing: -0.6,
-    lineHeight: 38,
+    letterSpacing: -0.5,
   },
-  title: {
+  h2: {
     fontSize: FontSize.xxl,
     fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
-    letterSpacing: -0.4,
-    lineHeight: 32,
+    letterSpacing: -0.3,
   },
-  heading: {
+  h3: {
     fontSize: FontSize.xl,
     fontWeight: FontWeight.semibold,
     color: Colors.textPrimary,
-    letterSpacing: -0.2,
   },
-  subheading: {
+  h4: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.semibold,
     color: Colors.textPrimary,
   },
-  body: {
+  body1: {
     fontSize: FontSize.md,
     fontWeight: FontWeight.regular,
-    color: Colors.textSecondary,
-    lineHeight: 23,
-  },
-  bodyStrong: {
-    fontSize: FontSize.md,
-    fontWeight: FontWeight.semibold,
     color: Colors.textPrimary,
+    lineHeight: 24,
   },
-  caption: {
+  body2: {
     fontSize: FontSize.sm,
     fontWeight: FontWeight.regular,
-    color: Colors.textTertiary,
-    lineHeight: 18,
+    color: Colors.textSecondary,
+    lineHeight: 20,
   },
-  label: {
+  caption: {
     fontSize: FontSize.xs,
-    fontWeight: FontWeight.semibold,
+    fontWeight: FontWeight.regular,
     color: Colors.textTertiary,
-    letterSpacing: 0.2,
+    lineHeight: 16,
   },
   code: {
     fontSize: FontSize.sm,
-    fontFamily: MonoFont,
-    color: Colors.codeText,
-    lineHeight: 21,
+    fontFamily: 'monospace' as any,
+    color: Colors.textPrimary,
+    lineHeight: 20,
   },
 });

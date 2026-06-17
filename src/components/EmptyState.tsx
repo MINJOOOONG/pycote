@@ -1,22 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 import { FontSize, FontWeight } from '../constants/typography';
-import { Spacing, BorderRadius } from '../constants/layout';
+import { Spacing } from '../constants/layout';
 
 interface EmptyStateProps {
-  icon?: keyof typeof Feather.glyphMap;
+  icon?: string;
   title: string;
   description?: string;
 }
 
-export function EmptyState({ icon = 'inbox', title, description }: EmptyStateProps) {
+export function EmptyState({ icon = '📭', title, description }: EmptyStateProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.iconCircle}>
-        <Feather name={icon} size={26} color={Colors.textQuaternary} />
-      </View>
+      <Text style={styles.icon}>{icon}</Text>
       <Text style={styles.title}>{title}</Text>
       {description && <Text style={styles.description}>{description}</Text>}
     </View>
@@ -28,17 +25,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Spacing.huge,
+    padding: Spacing.xxxl,
     gap: Spacing.md,
   },
-  iconCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: BorderRadius.full,
-    backgroundColor: Colors.surfaceElevated,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: Spacing.xs,
+  icon: {
+    fontSize: 48,
+    marginBottom: Spacing.sm,
   },
   title: {
     fontSize: FontSize.lg,
