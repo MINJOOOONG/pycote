@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Colors } from '../../../constants/colors';
-import { FontSize } from '../../../constants/typography';
+import { FontSize, MonoFont } from '../../../constants/typography';
 import { Spacing, BorderRadius } from '../../../constants/layout';
 
 interface Props {
@@ -17,8 +17,6 @@ interface Props {
   disabled?: boolean;
   onReset?: () => void;
 }
-
-const MONO = Platform.OS === 'ios' ? 'Courier New' : 'monospace';
 
 export function CodeEditor({ value, onChange, disabled = false, onReset }: Props) {
   return (
@@ -31,7 +29,7 @@ export function CodeEditor({ value, onChange, disabled = false, onReset }: Props
         </View>
         <Text style={styles.langLabel}>Python 3</Text>
         {onReset && (
-          <TouchableOpacity onPress={onReset} style={styles.resetBtn}>
+          <TouchableOpacity onPress={onReset} style={styles.resetBtn} activeOpacity={0.7}>
             <Text style={styles.resetText}>초기화</Text>
           </TouchableOpacity>
         )}
@@ -59,16 +57,16 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.codeBorder,
   },
   toolbar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#161B22',
+    backgroundColor: Colors.surfaceElevated,
     paddingHorizontal: Spacing.md,
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colors.codeBorder,
   },
   dots: {
     flexDirection: 'row',
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.md,
     fontSize: FontSize.xs,
     color: Colors.textTertiary,
-    fontFamily: MONO,
+    fontFamily: MonoFont,
     flex: 1,
   },
   resetBtn: {
@@ -91,16 +89,16 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: BorderRadius.sm,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.codeBorder,
   },
   resetText: {
     fontSize: FontSize.xs,
     color: Colors.textSecondary,
   },
   input: {
-    backgroundColor: '#0D1117',
-    color: '#E6EDF3',
-    fontFamily: MONO,
+    backgroundColor: Colors.codeBackground,
+    color: Colors.codeText,
+    fontFamily: MonoFont,
     fontSize: 14,
     lineHeight: 22,
     padding: Spacing.md,

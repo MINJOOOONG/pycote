@@ -1,10 +1,23 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { Colors } from './src/constants/colors';
+
+const navTheme: Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.background,
+    card: Colors.background,
+    text: Colors.textPrimary,
+    border: Colors.border,
+    primary: Colors.primary,
+  },
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,8 +32,8 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <StatusBar style="light" />
+        <NavigationContainer theme={navTheme}>
+          <StatusBar style="dark" />
           <RootNavigator />
         </NavigationContainer>
       </QueryClientProvider>

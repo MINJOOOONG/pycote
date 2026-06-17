@@ -17,7 +17,7 @@ export function ConceptDetailScreen() {
   const { data: concept, isLoading } = useConceptDetail(conceptId);
 
   if (isLoading) return <LoadingScreen />;
-  if (!concept) return <EmptyState icon="😅" title="개념을 찾을 수 없습니다" />;
+  if (!concept) return <EmptyState icon="frown" title="개념을 찾을 수 없습니다" />;
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>

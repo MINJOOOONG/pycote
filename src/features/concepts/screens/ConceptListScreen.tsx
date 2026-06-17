@@ -15,7 +15,7 @@ import { SearchBar } from '../../../components/SearchBar';
 import { EmptyState } from '../../../components/EmptyState';
 import { LoadingScreen } from '../../../components/LoadingScreen';
 import { Colors } from '../../../constants/colors';
-import { Spacing, BorderRadius } from '../../../constants/layout';
+import { Spacing, BorderRadius, ScreenPadding } from '../../../constants/layout';
 import { FontSize, FontWeight } from '../../../constants/typography';
 import { Concept, ConceptCategory } from '../../../types/concept';
 import { ConceptListNavigationProp } from '../../../navigation/types';
@@ -102,10 +102,10 @@ export function ConceptListScreen() {
         ]}
         ListEmptyComponent={
           error ? (
-            <EmptyState icon="⚠️" title="오류가 발생했습니다" />
+            <EmptyState icon="alert-triangle" title="오류가 발생했습니다" />
           ) : (
             <EmptyState
-              icon="📚"
+              icon="book-open"
               title="개념이 없습니다"
               description="다른 검색어나 카테고리를 선택해보세요"
             />
@@ -119,12 +119,12 @@ export function ConceptListScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  header: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: Spacing.lg, paddingTop: Spacing.md, paddingBottom: Spacing.sm },
-  headerTitle: { fontSize: FontSize.xxl, fontWeight: FontWeight.bold, color: Colors.textPrimary },
+  header: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: ScreenPadding, paddingTop: Spacing.lg, paddingBottom: Spacing.md },
+  headerTitle: { fontSize: FontSize.xxl, fontWeight: FontWeight.bold, color: Colors.textPrimary, letterSpacing: -0.5 },
   conceptCount: { fontSize: FontSize.sm, color: Colors.textTertiary },
-  searchContainer: { paddingHorizontal: Spacing.lg, paddingBottom: Spacing.md },
-  filterSection: { paddingBottom: Spacing.sm, borderBottomWidth: 1, borderBottomColor: Colors.border },
-  filterScroll: { paddingHorizontal: Spacing.lg, gap: Spacing.sm },
+  searchContainer: { paddingHorizontal: ScreenPadding, paddingBottom: Spacing.md },
+  filterSection: { paddingBottom: Spacing.md },
+  filterScroll: { paddingHorizontal: ScreenPadding, gap: Spacing.sm },
   filterChip: { paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm, borderRadius: BorderRadius.full, backgroundColor: Colors.surface, borderWidth: 1, borderColor: Colors.border },
   filterChipActive: { backgroundColor: Colors.primaryDim, borderColor: Colors.primary },
   filterChipText: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: FontWeight.medium },

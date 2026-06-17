@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { Problem } from '../types/problem';
 import { LevelBadge } from './LevelBadge';
+import { Card } from './Card';
+import { Pill } from './Pill';
 import { Colors } from '../constants/colors';
 import { FontSize, FontWeight } from '../constants/typography';
-import { Spacing, BorderRadius } from '../constants/layout';
+import { Spacing } from '../constants/layout';
 
 interface ProblemCardProps {
   problem: Problem;
@@ -22,23 +25,26 @@ export function ProblemCard({
   isSolved = false,
 }: ProblemCardProps) {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
+    <Card onPress={onPress} style={styles.card}>
       <View style={styles.topRow}>
         <View style={styles.leftMeta}>
           <LevelBadge level={problem.level} size="sm" />
           {isSolved && (
             <View style={styles.solvedBadge}>
-              <Text style={styles.solvedText}>✓</Text>
+              <Feather name="check" size={11} color={Colors.textInverse} />
             </View>
           )}
         </View>
         <TouchableOpacity
           onPress={onBookmarkPress}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <Text style={[styles.bookmark, isBookmarked && styles.bookmarkActive]}>
-            {isBookmarked ? '★' : '☆'}
-          </Text>
+          <Feather
+            name="bookmark"
+            size={18}
+            color={isBookmarked ? Colors.primary : Colors.textQuaternary}
+            style={isBookmarked ? styles.bookmarkActive : undefined}
+          />
         </TouchableOpacity>
       </View>
 
@@ -46,36 +52,44 @@ export function ProblemCard({
         {problem.title}
       </Text>
 
+      <View style={styles.tagRow}>
+        <Pill label={problem.category} color={Colors.textSecondary} backgroundColor={Colors.surfaceElevated} />
+        {problem.tags.slice(0, 2).map((tag) => (
+          <Pill key={tag} label={`#${tag}`} color={Colors.textTertiary} backgroundColor={Colors.surfaceElevated} />
+        ))}
+      </View>
+
       <View style={styles.bottomRow}>
-        <View style={styles.categoryTag}>
-          <Text style={styles.categoryText}>{problem.category}</Text>
+        <View style={styles.metaItem}>
+          <Feather name="clock" size={13} color={Colors.textQuaternary} />
+          <Text style={styles.metaText}>약 {problem.estimatedMinutes}분</Text>
         </View>
         {problem.acceptRate !== undefined && (
-          <Text style={styles.acceptRate}>정답률 {problem.acceptRate.toFixed(0)}%</Text>
+          <View style={styles.metaItem}>
+            <Feather name="bar-chart-2" size={13} color={Colors.textQuaternary} />
+            <Text style={styles.metaText}>정답률 {problem.acceptRate.toFixed(0)}%</Text>
+          </View>
         )}
         {problem.solveCount !== undefined && (
-          <Text style={styles.solveCount}>
-            {problem.solveCount >= 1000
-              ? `${(problem.solveCount / 1000).toFixed(1)}k`
-              : problem.solveCount}
-            명
-          </Text>
+          <View style={styles.metaItem}>
+            <Feather name="users" size={13} color={Colors.textQuaternary} />
+            <Text style={styles.metaText}>
+              {problem.solveCount >= 1000
+                ? `${(problem.solveCount / 1000).toFixed(1)}k`
+                : problem.solveCount}
+            </Text>
+          </View>
         )}
       </View>
-    </TouchableOpacity>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: Spacing.lg,
-    marginVertical: Spacing.xs,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.lg,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    gap: Spacing.sm,
+    marginHorizontal: Spacing.xl,
+    marginVertical: Spacing.sm,
+    gap: Spacing.md,
   },
   topRow: {
     flexDirection: 'row',
@@ -95,47 +109,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  solvedText: {
-    fontSize: 10,
-    color: '#fff',
-    fontWeight: FontWeight.bold,
-  },
-  bookmark: {
-    fontSize: 20,
-    color: Colors.textTertiary,
-  },
   bookmarkActive: {
-    color: '#FFD700',
+    // Feather has no filled bookmark; primary color signals active state
   },
   title: {
-    fontSize: FontSize.md,
+    fontSize: FontSize.lg,
     fontWeight: FontWeight.semibold,
     color: Colors.textPrimary,
-    lineHeight: 22,
+    lineHeight: 23,
+    letterSpacing: -0.2,
+  },
+  tagRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.xs,
   },
   bottomRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.sm,
+    gap: Spacing.lg,
     flexWrap: 'wrap',
   },
-  categoryTag: {
-    backgroundColor: Colors.surfaceElevated,
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: 2,
-    borderRadius: BorderRadius.sm,
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
-  categoryText: {
+  metaText: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colors.textTertiary,
     fontWeight: FontWeight.medium,
-  },
-  acceptRate: {
-    fontSize: FontSize.xs,
-    color: Colors.textTertiary,
-  },
-  solveCount: {
-    fontSize: FontSize.xs,
-    color: Colors.textTertiary,
   },
 });

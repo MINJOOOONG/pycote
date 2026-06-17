@@ -15,11 +15,11 @@ import { useBookmarkStore } from '../../../store/bookmarkStore';
 import { useProgressStore } from '../../../store/progressStore';
 import { ProblemCard } from '../../../components/ProblemCard';
 import { SearchBar } from '../../../components/SearchBar';
-import { LevelBadge } from '../../../components/LevelBadge';
 import { EmptyState } from '../../../components/EmptyState';
 import { LoadingScreen } from '../../../components/LoadingScreen';
+import { getLevelConfig } from '../../../constants/levels';
 import { Colors } from '../../../constants/colors';
-import { Spacing, BorderRadius } from '../../../constants/layout';
+import { Spacing, BorderRadius, ScreenPadding } from '../../../constants/layout';
 import { FontSize, FontWeight } from '../../../constants/typography';
 import { DifficultyLevel, Problem } from '../../../types/problem';
 import { ProblemListNavigationProp } from '../../../navigation/types';
@@ -37,10 +37,8 @@ export function ProblemListScreen() {
   const hasFilters = selectedLevels.length > 0;
 
   const handleProblemPress = useCallback(
-    (problem: Problem) => {
-      navigation.navigate('ProblemDetail', { problemId: problem.id });
-    },
-    [navigation]
+    (problem: Problem) => navigation.navigate('ProblemDetail', { problemId: problem.id }),
+    [navigation],
   );
 
   const renderProblem = useCallback(
@@ -56,7 +54,7 @@ export function ProblemListScreen() {
         />
       );
     },
-    [handleProblemPress, isBookmarked, toggleBookmark, getProgress]
+    [handleProblemPress, isBookmarked, toggleBookmark, getProgress],
   );
 
   if (isLoading) return <LoadingScreen />;
@@ -65,17 +63,13 @@ export function ProblemListScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>문제풀이</Text>
-        <Text style={styles.problemCount}>
-          {problems?.length ?? 0}문제
+        <Text style={styles.headerSub}>
+          총 {problems?.length ?? 0}개의 Python 문제
         </Text>
       </View>
 
       <View style={styles.searchContainer}>
-        <SearchBar
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="문제 검색..."
-        />
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} placeholder="문제 검색..." />
       </View>
 
       <View style={styles.filterSection}>
@@ -85,22 +79,29 @@ export function ProblemListScreen() {
           contentContainerStyle={styles.filterScroll}
         >
           <TouchableOpacity
-            style={[styles.filterChip, !hasFilters && styles.filterChipActive]}
+            style={[styles.chip, !hasFilters && styles.chipActive]}
             onPress={resetFilters}
+            activeOpacity={0.8}
           >
-            <Text style={[styles.filterChipText, !hasFilters && styles.filterChipTextActive]}>
-              전체
-            </Text>
+            <Text style={[styles.chipText, !hasFilters && styles.chipTextActive]}>전체</Text>
           </TouchableOpacity>
           {LEVELS.map((level) => {
-            const isActive = selectedLevels.includes(level);
+            const active = selectedLevels.includes(level);
+            const config = getLevelConfig(level);
             return (
               <TouchableOpacity
                 key={level}
-                style={[styles.filterChip, isActive && styles.filterChipActive]}
+                style={[
+                  styles.chip,
+                  active && { backgroundColor: config.backgroundColor, borderColor: config.color },
+                ]}
                 onPress={() => toggleLevel(level)}
+                activeOpacity={0.8}
               >
-                <LevelBadge level={level} size="sm" />
+                <View style={[styles.chipDot, { backgroundColor: config.color }]} />
+                <Text style={[styles.chipText, active && { color: config.color, fontWeight: FontWeight.semibold }]}>
+                  {config.label}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -117,13 +118,9 @@ export function ProblemListScreen() {
         ]}
         ListEmptyComponent={
           error ? (
-            <EmptyState icon="⚠️" title="오류가 발생했습니다" description="잠시 후 다시 시도해주세요" />
+            <EmptyState icon="alert-triangle" title="오류가 발생했습니다" description="잠시 후 다시 시도해주세요" />
           ) : (
-            <EmptyState
-              icon="🔍"
-              title="검색 결과가 없습니다"
-              description="다른 검색어나 필터를 사용해보세요"
-            />
+            <EmptyState icon="search" title="검색 결과가 없습니다" description="다른 검색어나 필터를 사용해보세요" />
           )
         }
         showsVerticalScrollIndicator={false}
@@ -133,62 +130,66 @@ export function ProblemListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
+  container: { flex: 1, backgroundColor: Colors.background },
   header: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.md,
-    paddingBottom: Spacing.sm,
+    paddingHorizontal: ScreenPadding,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.md,
   },
   headerTitle: {
     fontSize: FontSize.xxl,
     fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
+    letterSpacing: -0.5,
   },
-  problemCount: {
+  headerSub: {
     fontSize: FontSize.sm,
     color: Colors.textTertiary,
+    marginTop: 2,
   },
   searchContainer: {
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: ScreenPadding,
     paddingBottom: Spacing.md,
   },
   filterSection: {
-    paddingBottom: Spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    paddingBottom: Spacing.md,
   },
   filterScroll: {
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: ScreenPadding,
     gap: Spacing.sm,
   },
-  filterChip: {
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+    height: 36,
     borderRadius: BorderRadius.full,
     backgroundColor: Colors.surface,
     borderWidth: 1,
     borderColor: Colors.border,
   },
-  filterChipActive: {
+  chipActive: {
     backgroundColor: Colors.primaryDim,
     borderColor: Colors.primary,
   },
-  filterChipText: {
+  chipDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  chipText: {
     fontSize: FontSize.sm,
     color: Colors.textSecondary,
     fontWeight: FontWeight.medium,
   },
-  filterChipTextActive: {
+  chipTextActive: {
     color: Colors.primary,
+    fontWeight: FontWeight.semibold,
   },
   listContent: {
-    paddingVertical: Spacing.md,
+    paddingTop: Spacing.xs,
+    paddingBottom: Spacing.xl,
   },
   emptyList: {
     flex: 1,

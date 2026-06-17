@@ -19,21 +19,16 @@ export function LevelBadge({ level, size = 'md', showDescription = false }: Leve
     <View
       style={[
         styles.badge,
-        { backgroundColor: config.backgroundColor, borderColor: config.color + '40' },
+        { backgroundColor: config.backgroundColor },
         isSmall && styles.badgeSm,
       ]}
     >
-      <Text
-        style={[
-          styles.label,
-          { color: config.color },
-          isSmall && styles.labelSm,
-        ]}
-      >
+      <View style={[styles.dot, { backgroundColor: config.color }]} />
+      <Text style={[styles.label, { color: config.color }, isSmall && styles.labelSm]}>
         {config.label}
       </Text>
       {showDescription && !isSmall && (
-        <Text style={[styles.description, { color: config.color + 'CC' }]}>
+        <Text style={[styles.description, { color: config.color }]}>
           {config.description}
         </Text>
       )}
@@ -45,27 +40,33 @@ const styles = StyleSheet.create({
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.xs,
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: 4,
-    borderRadius: BorderRadius.sm,
-    borderWidth: 1,
+    gap: 5,
+    paddingHorizontal: Spacing.sm + 2,
+    paddingVertical: 5,
+    borderRadius: BorderRadius.full,
     alignSelf: 'flex-start',
   },
   badgeSm: {
-    paddingHorizontal: Spacing.xs + 2,
-    paddingVertical: 2,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 3,
+    gap: 4,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   label: {
     fontSize: FontSize.sm,
     fontWeight: FontWeight.bold,
-    letterSpacing: 0.3,
+    letterSpacing: 0.2,
   },
   labelSm: {
     fontSize: FontSize.xs,
   },
   description: {
     fontSize: FontSize.xs,
-    fontWeight: FontWeight.medium,
+    fontWeight: FontWeight.semibold,
+    opacity: 0.85,
   },
 });

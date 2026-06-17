@@ -1,17 +1,21 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
+import { HomeStackNavigator } from './HomeStackNavigator';
 import { ProblemsStackNavigator } from './ProblemsStackNavigator';
 import { ConceptsStackNavigator } from './ConceptsStackNavigator';
 import { TabParamList } from './types';
 import { Colors } from '../constants/colors';
-import { FontSize } from '../constants/typography';
+import { FontWeight } from '../constants/typography';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 22, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>
+type IconName = keyof typeof Feather.glyphMap;
+
+function tabIcon(name: IconName) {
+  return ({ color, size }: { color: string; size: number }) => (
+    <Feather name={name} size={size - 1} color={color} />
   );
 }
 
@@ -24,33 +28,32 @@ export function BottomTabNavigator() {
           backgroundColor: Colors.tabBarBackground,
           borderTopColor: Colors.border,
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 8,
-          paddingTop: 8,
+          height: Platform.OS === 'ios' ? 84 : 64,
+          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+          paddingTop: 10,
         },
         tabBarActiveTintColor: Colors.tabBarActive,
         tabBarInactiveTintColor: Colors.tabBarInactive,
         tabBarLabelStyle: {
-          fontSize: FontSize.xs,
-          fontWeight: '600',
+          fontSize: 11,
+          fontWeight: FontWeight.semibold,
         },
       }}
     >
       <Tab.Screen
+        name="HomeTab"
+        component={HomeStackNavigator}
+        options={{ tabBarLabel: '홈', tabBarIcon: tabIcon('home') }}
+      />
+      <Tab.Screen
         name="ProblemsTab"
         component={ProblemsStackNavigator}
-        options={{
-          tabBarLabel: '문제풀이',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="💻" focused={focused} />,
-        }}
+        options={{ tabBarLabel: '문제풀이', tabBarIcon: tabIcon('code') }}
       />
       <Tab.Screen
         name="ConceptsTab"
         component={ConceptsStackNavigator}
-        options={{
-          tabBarLabel: '개념요약',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="📚" focused={focused} />,
-        }}
+        options={{ tabBarLabel: '개념요약', tabBarIcon: tabIcon('book-open') }}
       />
     </Tab.Navigator>
   );

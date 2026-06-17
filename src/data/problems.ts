@@ -34,6 +34,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['수학', '기초'],
     acceptRate: 95.2,
     solveCount: 98500,
+    estimatedMinutes: 3,
     createdAt: '2024-01-01',
   },
 
@@ -69,6 +70,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['수학', '조건문'],
     acceptRate: 93.8,
     solveCount: 95200,
+    estimatedMinutes: 3,
     createdAt: '2024-01-01',
   },
 
@@ -104,6 +106,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['문자열', '슬라이싱'],
     acceptRate: 91.5,
     solveCount: 88300,
+    estimatedMinutes: 4,
     createdAt: '2024-01-02',
   },
 
@@ -139,6 +142,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['배열', '내장함수'],
     acceptRate: 94.1,
     solveCount: 92100,
+    estimatedMinutes: 4,
     createdAt: '2024-01-02',
   },
 
@@ -174,6 +178,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['수학', '연산자'],
     acceptRate: 89.3,
     solveCount: 81200,
+    estimatedMinutes: 5,
     createdAt: '2024-01-03',
   },
 
@@ -214,6 +219,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['수학', '범위', '등차수열'],
     acceptRate: 77.4,
     solveCount: 62800,
+    estimatedMinutes: 8,
     createdAt: '2024-01-04',
   },
 
@@ -251,6 +257,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['문자열', '슬라이싱', '인덱싱'],
     acceptRate: 74.2,
     solveCount: 58400,
+    estimatedMinutes: 10,
     createdAt: '2024-01-04',
   },
 
@@ -287,6 +294,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['문자열', '슬라이싱'],
     acceptRate: 82.6,
     solveCount: 71300,
+    estimatedMinutes: 7,
     createdAt: '2024-01-05',
   },
 
@@ -323,6 +331,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['정렬', '문자열 변환'],
     acceptRate: 71.8,
     solveCount: 54700,
+    estimatedMinutes: 10,
     createdAt: '2024-01-05',
   },
 
@@ -361,6 +370,7 @@ export const PROBLEMS: Problem[] = [
     tags: ['수학', '반복문', '시뮬레이션'],
     acceptRate: 68.3,
     solveCount: 49100,
+    estimatedMinutes: 12,
     createdAt: '2024-01-06',
   },
 ];
