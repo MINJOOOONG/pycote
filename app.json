@@ -16,9 +16,6 @@
     },
     "web": {
       "bundler": "metro"
-    },
-    "experiments": {
-      "baseUrl": "/pycote"
     }
   }
 }
