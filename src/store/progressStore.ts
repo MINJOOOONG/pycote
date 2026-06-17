@@ -56,14 +56,19 @@ export const useProgressStore = create<ProgressState>()(
       },
       saveCode: (problemId, code) => {
         const existing = get().progress[problemId];
-        if (existing) {
-          set({
-            progress: {
-              ...get().progress,
-              [problemId]: { ...existing, savedCode: code },
+        set({
+          progress: {
+            ...get().progress,
+            [problemId]: {
+              problemId,
+              status: existing?.status ?? 'attempted',
+              attempts: existing?.attempts ?? 0,
+              solvedAt: existing?.solvedAt,
+              lastAttemptAt: existing?.lastAttemptAt ?? new Date().toISOString(),
+              savedCode: code,
             },
-          });
-        }
+          },
+        });
       },
       getProgress: (problemId) => get().progress[problemId],
       getStats: () => {

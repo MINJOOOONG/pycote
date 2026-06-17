@@ -25,6 +25,13 @@ export interface Example {
   explanation?: string;
 }
 
+export interface TestCase {
+  id: string;
+  input: string;
+  expectedOutput: string;
+  hidden: boolean;
+}
+
 export interface Problem {
   id: string;
   title: string;
@@ -35,6 +42,8 @@ export interface Problem {
   outputDescription: string;
   constraints: string[];
   examples: Example[];
+  starterCode: string;
+  testCases: TestCase[];
   hints: string[];
   solution: string;
   explanation: string;
