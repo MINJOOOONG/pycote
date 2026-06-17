@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "pycote",
+    "slug": "pycote",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.pycote.app"
+    },
+    "android": {
+      "package": "com.pycote.app"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
